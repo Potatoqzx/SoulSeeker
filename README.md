@@ -12,4 +12,5 @@
 /Joe: Your average joe who will die in one shot    
 /Dave: He's really fast like Selfcontrol    
 /Sam: He's really tanky and takes three hits to die and doesn't give any points, but is a threat becuase he deals extra damage    
-/Just escape after defeating all of the Souless    
+/Just escape after defeating all of the Souless        
+/Stick around for updates becuase I'm not finished    
