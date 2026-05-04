@@ -1,5 +1,5 @@
 # SoulSeeker
-/This is a shooter game. Press the number keys 1-5 and 0 to switch you characters throughout the game.
+/This is a shooter game. Press the number keys 1-5 and 0 to switch you characters throughout the game.    
 /Souls:           
 /0: The defualt soul that can only move. You won't really need to use him, but he pops up if you go past your cooldowns.    
 /1: Selfcontrol is the name of this soul and he moves fast    
