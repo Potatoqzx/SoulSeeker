@@ -219,7 +219,7 @@ while not game.over:
         gent.visible = False
         
     if kind.visible == True:
-        soul.health+=0.5
+        soul.health+=0.05
         if keys.Pressed[K_UP]:
             soul.y+=3
         if keys.Pressed[K_DOWN]:
@@ -229,7 +229,7 @@ while not game.over:
         if keys.Pressed[K_RIGHT]:
             soul.x-=3
     if soul.health>200:
-        soul.health-=0.5
+        soul.health-=0.05
 
     #gent
 
