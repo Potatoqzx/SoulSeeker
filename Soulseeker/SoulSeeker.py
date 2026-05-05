@@ -233,8 +233,8 @@ while not game.over:
 
     #gent
 
-    if keys.Pressed[K_5] and p > 100 and gent.visible == False:
-        p = 101
+    if keys.Pressed[K_5] and p > 300 and gent.visible == False:
+        p = 301
         pat.visible = False
         soul.visible = False
         goodness.visible = False
@@ -242,7 +242,7 @@ while not game.over:
         kind.visible = False
         gent.visible = True
 
-    if gent.visible == True and p==150:
+    if gent.visible == True and p==400:
         p=0
         gent.visible = False
         soul.visible = True
