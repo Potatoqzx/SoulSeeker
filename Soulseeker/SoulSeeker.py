@@ -35,13 +35,13 @@ randLocate(joe)
 
 sammy=[]
 for i in range(75):
-    sam = Image ("images/sam.png",game)
+    sam = Image ("images/aaron.png",game)
     sammy.append(sam)
 randLocate(sammy)
 
 dav=[]
 for i in range(50):    
-    dave = Image ("images/dave.png",game)
+    dave = Image ("images/panagioti.png",game)
     dave.resizeBy(-20)
     dav.append(dave)
 randLocate(dav)
@@ -188,11 +188,17 @@ while not game.over:
         selfctrl.visible = False
         kind.visible = False
         gent.visible = False
+        if p > 300 and (keys.Pressed[1] or keys.Pressed[2] or keys.Pressed[4] or keys.Pressed[5]):
+            p=0
+            pat.visible = False
         
     if pat.visible == True and p==400:
         p=0
         pat.visible = False
         soul.visible = True
+
+
+    
         
             
             
