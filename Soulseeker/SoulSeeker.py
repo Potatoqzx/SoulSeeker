@@ -64,15 +64,22 @@ pat.visible = False
 kind.visible = False
 gent.visible = False
 
+
 p=30
 t = 0
+wait = 0
 game.score=0
+g = 0
+waitg=0
 #__Main Game________________________________________________________________________________________________________________________________________________
 while not game.over:
     game.processInput()
     bk.draw()
     t+=1
     p+=1
+    wait+=1
+    g+=1
+    waitg+=1
 
 
     soul.draw()
@@ -85,9 +92,13 @@ while not game.over:
     
 
 
-
     
-    #          CHARACTERS!!!!!!!!!!!!!!!!!!!! 
+    
+    #          CHARACTERS!!!!!!!!!!!!!!!!!!!!
+
+    if soul.isOffScreen() or selfctrl.isOffScreen() or goodness.isOffScreen() or pat.isOffScreen() or kind.isOffScreen() or gent.isOffScreen():
+        soul.health-=0.05
+    
     if keys.Pressed[K_0]:
         selfctrl.visible = False
         soul.visible = True
@@ -172,7 +183,6 @@ while not game.over:
                 
 
                 
-            
             gdbullets.append(bullet)                
 
             
@@ -180,20 +190,24 @@ while not game.over:
     #patience
     
 
-    if keys.Pressed[K_3] and p > 300 and pat.visible == False:
-        p = 301
+    if keys.Pressed[K_3] and wait > 300 and pat.visible == False:
+        p = 0
         pat.visible = True
         soul.visible = False
         goodness.visible = False
         selfctrl.visible = False
         kind.visible = False
         gent.visible = False
-        if p > 300 and (keys.Pressed[1] or keys.Pressed[2] or keys.Pressed[4] or keys.Pressed[5]):
-            p=0
-            pat.visible = False
-        
-    if pat.visible == True and p==400:
+
+    if p<=100 and (keys.Pressed[K_1] or keys.Pressed[K_2] or keys.Pressed[K_4] or keys.Pressed[K_5]):
         p=0
+        wait = 0
+        
+    
+        
+    if pat.visible == True and p>=100:
+        p=0
+        wait = 0
         pat.visible = False
         soul.visible = True
 
@@ -239,17 +253,21 @@ while not game.over:
 
     #gent
 
-    if keys.Pressed[K_5] and p > 300 and gent.visible == False:
-        p = 301
+    if keys.Pressed[K_5] and waitg > 300 and gent.visible == False:
+        g = 0
         pat.visible = False
         soul.visible = False
         goodness.visible = False
         selfctrl.visible = False
         kind.visible = False
         gent.visible = True
+    if g<=100 and (keys.Pressed[K_1] or keys.Pressed[K_2] or keys.Pressed[K_4] or keys.Pressed[K_3]):
+        g=0
+        waitg = 0
 
-    if gent.visible == True and p==400:
-        p=0
+    if gent.visible == True and g==400:
+        g=0
+        waitg=0
         gent.visible = False
         soul.visible = True
         
@@ -285,6 +303,15 @@ while not game.over:
             game.score +=1
         if joe[i].health<=0:
             joe[i].visible = False
+        '''
+
+        if game.score == 100:
+            if joe[i].visible == True and gent.visible == True:
+                joe[i].moveTowards(soul,-3)
+            else:
+                joe[i].moveTowards(soul,5)
+        '''
+            
     
         
 
@@ -305,8 +332,14 @@ while not game.over:
 
         if dav[i].health<=0:
             dav[i].visible = False
+        '''
+        if game.score == 100:
+            if dav[i].visible == True and gent.visible == True:
+                dav[i].moveTowards(soul,-3)
+            else:
+                dav[i].moveTowards(soul,8)
           
-             
+        ''' 
     for i in range (len(sammy)):
         if sammy[i].visible == True and gent.visible == True:
             sammy[i].moveTowards(soul,-5)
@@ -320,6 +353,14 @@ while not game.over:
             soul.health-=13
         if sammy[i].health<=0:
             sammy[i].visible = False
+        '''
+        if game.score == 100:
+            if sammy[i].visible == True and gent.visible == True:
+                sammy[i].moveTowards(soul,-3)
+            else:
+                sammy[i].moveTowards(soul,5)
+        '''
+            
             
                
                 
@@ -340,6 +381,8 @@ while not game.over:
         for s in sammy:
             if gd.collidedWith(s):
                 s.health-=3
+
+        
 
              
     
