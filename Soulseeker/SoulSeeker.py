@@ -7,10 +7,34 @@ def randLocate(objects):
         y=randint(100,1200)
         objects[i].moveTo(x,-y)
 
+def scatter(objects):
+    for i in range(len(objects)):
+        x=randint(-200,200)
+        y=randint(-1000,500)
+        objects[i].y +=y
+        objects[i].x +=x
+        
 
 
 
 game = Game(1500,1000,"Soulseeker")
+
+
+
+
+p=30
+t = 0
+wait = 0
+game.score=0
+g = 0
+waitg=0
+
+windup = Shape("bar",game,wait,5,green)
+windupg = Shape("bar",game,waitg,5,blue)
+cooldown = Shape("bar",game,p,5,red)
+cooldowng = Shape("bar",game,g,5,(3, 252, 252))
+
+
 
 soulOG = Animation ("images/soul.png",4,game,196/2,196/2,3)
 soul = Animation ("images/soul.png",4,game,196/2,196/2,3)
@@ -65,12 +89,10 @@ kind.visible = False
 gent.visible = False
 
 
-p=30
-t = 0
-wait = 0
-game.score=0
-g = 0
-waitg=0
+scatteronce = True
+
+
+    
 #__Main Game________________________________________________________________________________________________________________________________________________
 while not game.over:
     game.processInput()
@@ -80,7 +102,7 @@ while not game.over:
     wait+=1
     g+=1
     waitg+=1
-
+    
 
     soul.draw()
     selfctrl.moveTo(soul.x-5,soul.y+15)
@@ -117,7 +139,7 @@ while not game.over:
         kind.visible = False
         gent.visible = False
         
-    if selfctrl.visible == True:
+    if selfctrl.visible == True and game.score <= 100:
         if keys.Pressed[K_UP]:
             soul.y-=5
         if keys.Pressed[K_DOWN]:
@@ -126,6 +148,17 @@ while not game.over:
             soul.x-=5
         if keys.Pressed[K_RIGHT]:
             soul.x+=5
+
+    if selfctrl.visible == True and game.score >= 100:
+        if keys.Pressed[K_UP]:
+            soul.y-=6
+        if keys.Pressed[K_DOWN]:
+            soul.y+=6
+        if keys.Pressed[K_LEFT]:
+            soul.x-=6
+        if keys.Pressed[K_RIGHT]:
+            soul.x+=6
+    
     #goodness
 
     if keys.Pressed[K_2]:
@@ -192,6 +225,8 @@ while not game.over:
 
     if keys.Pressed[K_3] and wait > 300 and pat.visible == False:
         p = 0
+        g = 0
+        waitg = 0
         pat.visible = True
         soul.visible = False
         goodness.visible = False
@@ -199,15 +234,21 @@ while not game.over:
         kind.visible = False
         gent.visible = False
 
-    if p<=100 and (keys.Pressed[K_1] or keys.Pressed[K_2] or keys.Pressed[K_4] or keys.Pressed[K_5]):
+    if wait == 302:
+        wait-=1
+
+    if p<=100 and (keys.Pressed[K_1] or keys.Pressed[K_2] or keys.Pressed[K_4] or keys.Pressed[K_5]) and wait > 300:
         p=0
+        g=0
         wait = 0
-        
-    
-        
+        waitg = 0
+    if p == 102:
+        p-=1
     if pat.visible == True and p>=100:
         p=0
+        g = 0
         wait = 0
+        waitg = 0
         pat.visible = False
         soul.visible = True
 
@@ -253,23 +294,35 @@ while not game.over:
 
     #gent
 
-    if keys.Pressed[K_5] and waitg > 300 and gent.visible == False:
+    if keys.Pressed[K_5] and waitg >= 400 and gent.visible == False:
         g = 0
+        p=0
         pat.visible = False
         soul.visible = False
         goodness.visible = False
         selfctrl.visible = False
         kind.visible = False
         gent.visible = True
-    if g<=100 and (keys.Pressed[K_1] or keys.Pressed[K_2] or keys.Pressed[K_4] or keys.Pressed[K_3]):
+    if g<=100 and (keys.Pressed[K_1] or keys.Pressed[K_2] or keys.Pressed[K_4] or keys.Pressed[K_3]) and waitg > 300:
         g=0
+        p=0
         waitg = 0
+        wait = 0
 
-    if gent.visible == True and g==400:
+    if gent.visible == True and g>=75:
         g=0
+        p=0
         waitg=0
+        wait=0
         gent.visible = False
         soul.visible = True
+
+
+    if waitg == 401:
+        waitg-=1
+
+    if g == 76:
+        g-1
         
     
     if keys.Pressed[K_UP]:
@@ -303,14 +356,16 @@ while not game.over:
             game.score +=1
         if joe[i].health<=0:
             joe[i].visible = False
-        '''
+        
 
-        if game.score == 100:
+        if game.score >= 100:
             if joe[i].visible == True and gent.visible == True:
                 joe[i].moveTowards(soul,-3)
             else:
-                joe[i].moveTowards(soul,5)
-        '''
+                joe[i].moveTowards(soul,3.5)
+
+        
+        
             
     
         
@@ -332,14 +387,16 @@ while not game.over:
 
         if dav[i].health<=0:
             dav[i].visible = False
-        '''
-        if game.score == 100:
+        
+        if game.score >= 100:
             if dav[i].visible == True and gent.visible == True:
                 dav[i].moveTowards(soul,-3)
             else:
-                dav[i].moveTowards(soul,8)
+                dav[i].moveTowards(soul,5.5)
+
+        
           
-        ''' 
+        
     for i in range (len(sammy)):
         if sammy[i].visible == True and gent.visible == True:
             sammy[i].moveTowards(soul,-5)
@@ -348,18 +405,27 @@ while not game.over:
         if sammy[i].visible == True and sammy[i].collidedWith(pat):            
             sammy[i].visible = False
             
-        if sammy[i].visible == True and (sammy[i].collidedWith(soul) or sammy[i].collidedWith(goodness) or sammy[i].collidedWith(selfctrl) or sammy[i].collidedWith(kind) or sammy[i].collidedWith(gent)):
+        if sammy[i].visible == True and (sammy[i].collidedWith(soul) or sammy[i].collidedWith(goodness) or sammy[i].collidedWith(selfctrl) or sammy[i].collidedWith(kind) or sammy[i].collidedWith(gent)) and sammy[i].health>=0:
             sammy[i].visible = False
             soul.health-=13
+        if sammy[i].visible == True and (sammy[i].collidedWith(soul) or sammy[i].collidedWith(goodness) or sammy[i].collidedWith(selfctrl) or sammy[i].collidedWith(kind) or sammy[i].collidedWith(gent)) and sammy[i].health<=0:
+            sammy[i].visible = False
+            soul.health-=20
         if sammy[i].health<=0:
             sammy[i].visible = False
-        '''
-        if game.score == 100:
-            if sammy[i].visible == True and gent.visible == True:
+        if game.score >= 100:
+            if sammy[i].visible == True  and gent.visible == True:
                 sammy[i].moveTowards(soul,-3)
             else:
-                sammy[i].moveTowards(soul,5)
-        '''
+                sammy[i].moveTowards(soul,3.25)
+
+    if game.score >= 70 and scatteronce == True:
+        scatteronce=False
+        scatter(sammy)
+        scatter(dav)
+        scatter(joe)
+
+        
             
             
                
@@ -382,7 +448,7 @@ while not game.over:
             if gd.collidedWith(s):
                 s.health-=3
 
-        
+    
 
              
     
@@ -390,9 +456,42 @@ while not game.over:
 
 
     game.displayScore()
-    game.drawText("Health:" + str(soul.health),400,10)
+    game.drawText("Health:" + str(soul.health),600,10)
+    game.drawText(wait,400,10)
+    game.drawText(p,200,10)
     if soul.health < 0 or game.score >= 150:
         game.over=True
+
+
+
+
+    windup.width = wait/3
+    windupg.width = waitg/4
+    cooldown.width = 100-p
+    cooldowng.width = 75-p
+
+    if  soul.visible == True or selfctrl.visible == True or goodness.visible == True or kind.visible == True:
+        windup.moveTo(soul.x-56,soul.y+70)
+        windupg.moveTo(soul.x-56,soul.y+90)
+        cooldown.visible == False
+        cooldowng.visible == False
+
+
+    if  pat.visible == True:
+        cooldown.moveTo(soul.x-55,soul.y+70)
+        windup.visible ==False
+        windupg.visible ==False
+        cooldowng.visible == False
+        
+    if  gent.visible == True:
+        cooldowng.moveTo(soul.x-56,soul.y+90)
+        windup.visible ==False
+        windupg.visible ==False
+        cooldown.visible == False
+
+
+    
+
 
     game.update(60)
 
