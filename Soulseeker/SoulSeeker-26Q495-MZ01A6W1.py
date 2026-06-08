@@ -3,16 +3,17 @@ from gamelib import *
 
 def randLocate(objects):
     for i in range(len(objects)):
-        x=randint(-20000,20000)
-        y=randint(1000,12000)
-        p=randint(0,3)
-        m=(-1)**p
-        if m == 1:
-            objects[i].moveTo(x,-y)
+        mx=randint(200,400,)
+        my=randint(500,1000)
+        
+        mrandom = randint(0,2)
+        mx_side = -1**mrandom
+        my_side = -1**mrandom
+
+        if mx_side == -1:
+            objects[i].moveTo(mx,my)
         else:
-            objects[i].moveTo(x,y)
-        
-        
+            objects[i].moveTo(-mx,-my)
 
 def scatter(objects):
     for i in range(len(objects)):
@@ -522,7 +523,11 @@ while not game.over:
     HP.width = soul.health*5
     HP.moveTo(500,900)
 
-
+    if game.score >= 70 and scatteronce == True:
+        scatteronce=False
+        scatter(sammy)
+        scatter(dav)
+        scatter(joe)
 
 
     if  soul.visible == True or selfctrl.visible == True or goodness.visible == True or kind.visible == True:
